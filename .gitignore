@@ -1,0 +1,8 @@
+# Terraformの実行用バイナリと一時ファイル
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
+# 認証情報が含まれる可能性のあるファイル
+.env
