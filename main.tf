@@ -1,4 +1,8 @@
-# main.tf
+# Entra ID (Azure AD) 操作用のプロバイダー設定
+provider "azuread" {
+  tenant_id = var.tenant_id
+}
+
 provider "azurerm" {
   features {}
   resource_provider_registrations = "none"
@@ -58,4 +62,15 @@ resource "azurerm_network_security_group" "nsg" {
 resource "azurerm_subnet_network_security_group_association" "nsg_assoc" {
   subnet_id                 = azurerm_subnet.subnet_internal.id
   network_security_group_id = azurerm_network_security_group.nsg.id
+}
+
+# テスト用ユーザーの作成
+resource "azuread_user" "portfolio_user" {
+  # var.tenant_domain を使って自動組み立て
+  user_principal_name = "external-partner@${var.tenant_domain}"
+  display_name        = "External Partner (Portfolio)"
+  mail_nickname       = "ext-partner"
+
+  # パスワードは後で変更が必要な一時的なもの
+  password = "InitialPassword2026!"
 }
