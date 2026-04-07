@@ -87,3 +87,10 @@ resource "azuread_group_member" "portfolio_membership" {
   group_object_id  = azuread_group.external_partners.object_id
   member_object_id = azuread_user.portfolio_user.object_id
 }
+
+# ロールの割り当て（閲覧者権限をグループに付与）
+resource "azurerm_role_assignment" "reader_assignment" {
+  scope                = azurerm_resource_group.rg.id
+  role_definition_name = "Reader"
+  principal_id         = azuread_group.external_partners.object_id
+}
