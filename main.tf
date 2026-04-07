@@ -74,3 +74,16 @@ resource "azuread_user" "portfolio_user" {
   # パスワードは後で変更が必要な一時的なもの
   password = "InitialPassword2026!"
 }
+
+# 1. セキュリティグループの作成
+resource "azuread_group" "external_partners" {
+  display_name     = "Group-External-Partners"
+  security_enabled = true
+  description      = "Portfolio: External partners with limited access"
+}
+
+# 2. ユーザーをグループに所属させる（自動紐付け）
+resource "azuread_group_member" "portfolio_membership" {
+  group_object_id  = azuread_group.external_partners.object_id
+  member_object_id = azuread_user.portfolio_user.object_id
+}
